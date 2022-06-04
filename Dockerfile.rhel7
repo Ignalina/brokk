@@ -1,8 +1,8 @@
 FROM registry.access.redhat.com/ubi7/ubi:latest
 RUN yum install -y rust-toolset-${version} git 
-git clone https://github.com/manojkarthick/pqrs.git
-cargo build --release
-./target/release/pqrs
+RUN git clone https://github.com/manojkarthick/pqrs.git
+RUN cargo build --release
+#./target/release/pqrs
 
 FROM registry.access.redhat.com/ubi7/ubi-minimal as golang
 RUN microdnf install wget tar gzip
