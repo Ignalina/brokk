@@ -1,0 +1,15 @@
+FROM registry.access.redhat.com/ubi7/ubi:latest
+RUN yum install -y rust-toolset-${version} git 
+git clone https://github.com/manojkarthick/pqrs.git
+cargo build --release
+./target/release/pqrs
+
+FROM registry.access.redhat.com/ubi7/ubi-minimal as golang
+RUN microdnf install wget tar gzip
+RUN wget https://go.dev/dl/go1.18.2.linux-amd64.tar.gz
+RUN sha256sum go1.18.2.linux-amd64.tar.gz
+RUN tar -C /usr/local -xzf go*.linux-amd64.tar.gz
+RUN rm -rf go1.18.2.linux-amd64.tar.gz
+ADD arrowbuilder .
+WORKDIR /arrowbuilder
+RUN /usr/local/go/bin/go mod tidy
