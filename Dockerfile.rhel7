@@ -1,15 +1,13 @@
-FROM registry.access.redhat.com/ubi7/ubi:latest
-RUN yum install -y rust-toolset-7 git 
-RUN git clone https://github.com/manojkarthick/pqrs.git
-RUN cargo build --release
-#./target/release/pqrs
-
 FROM registry.access.redhat.com/ubi7/ubi-minimal as golang
-RUN microdnf install wget tar gzip
+RUN microdnf install wget tar gzip unzip
+RUN wget https://github.com/manojkarthick/pqrs/releases/download/v0.2.1/pqrs-0.2.1-x86_64-unknown-linux-gnu.zip
+RUN unzip pqrs-0.2.1-x86_64-unknown-linux-gnu.zip 
+#RUN mv pqrs-0.2.1-x86_64-unknown-linux-gnu.zip/bin/pqrs /bin/
+
 RUN wget https://go.dev/dl/go1.18.2.linux-amd64.tar.gz
 RUN sha256sum go1.18.2.linux-amd64.tar.gz
 RUN tar -C /usr/local -xzf go*.linux-amd64.tar.gz
 RUN rm -rf go1.18.2.linux-amd64.tar.gz
-ADD arrowbuilder .
-WORKDIR /arrowbuilder
-RUN /usr/local/go/bin/go mod tidy
+#ADD arrowbuilder .
+#WORKDIR /arrowbuilder
+#RUN /usr/local/go/bin/go mod tidy

@@ -1,0 +1,7 @@
+From rust:alpine3.16
+RUN apk add git musl-dev
+RUN git clone https://github.com/manojkarthick/pqrs.git
+
+RUN cd pqrs && cargo build --release && ./target/release/pqrs
+RUN apk add apache-arrow-tools
+
