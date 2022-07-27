@@ -1,4 +1,4 @@
-# Collection of tools free from jvme/python 
+# Collection of tools free from jvm/python 
 
 Based on Rust/Golang/C/C++ etc.
 
