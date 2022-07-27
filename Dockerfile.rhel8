@@ -1,2 +1,16 @@
-FROM registry.access.redhat.com/ubi8/ubi:latest
-RUN yum install -y rust-toolset
+FROM registry.access.redhat.com/ubi8/ubi:latest AS builder
+RUN dnf module -y install rust-toolset:rhel8
+RUN dnf install -y wget tar gzip git
+
+RUN git clone https://github.com/manojkarthick/pqrs.git && cd pqrs && cargo build --release
+#RUN ./target/release/pqrs
+
+
+#FROM registry.access.redhat.com/ubi8/ubi-minimal
+RUN wget https://go.dev/dl/go1.18.3.linux-amd64.tar.gz
+RUN sha256sum go1.18.3.linux-amd64.tar.gz
+RUN tar -C /usr/local -xzf go*.linux-amd64.tar.gz
+RUN rm -rf go1.18.3.linux-amd64.tar.gz
+
+RUN git clone https://github.com/xitonix/trubka.git && cd trubka && go build
+#/usr/local/go/bin/go
