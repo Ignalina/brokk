@@ -4,7 +4,7 @@ JVM+Python free except for existing languange bindings .. that is accessible fro
  
 
 ## currently compiled
- trubka Kafka client
+ trubka Kafka client  
  rpqrs Rust Parquet tools  
 
 ## Plan to add
