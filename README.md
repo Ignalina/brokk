@@ -1,4 +1,4 @@
-# Collection of near or baremetall tools free ,based on Rust/Golang/C/C++ etc.
+# Collection of near or baremetall pre-built-tools based on Rust/Golang/C/C++ etc.
 I need these tools in an "airgapped" environment where I either execute the tool inside the container or pluck it out to be closeer to the "metal". 
 
 * currently compiled
