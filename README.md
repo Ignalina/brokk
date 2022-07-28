@@ -17,3 +17,4 @@ Look up their respective license from their git/source or in this git repo under
 
 ## Brokkr
  In Norse mythology, Brokkr (Old Norse: [ˈbrokːz̠], "the one who works with metal fragments  ,https://en.wikipedia.org/wiki/Brokkr
+![This is an image](https://upload.wikimedia.org/wikipedia/commons/4/4c/The_third_gift_—_an_enormous_hammer_by_Elmer_Boyd_Smith.jpg)
