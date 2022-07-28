@@ -1,5 +1,5 @@
 # Brokkr's baremetall pre-built-tools 
-I need these tools in an "airgapped" environment where I either execute the tool inside the container or pluck it out to be closeer to the "metal". Based on Rust/Golang/C/C++  
+I need these tools in an "airgapped" environment where I either execute the tool inside the container or pluck it out to be closer to the "metal". Based on Rust/Golang/C/C++  
 JVM+Python free except for existing languange bindings .. that is accessible from python , java but not based on...
  
 
