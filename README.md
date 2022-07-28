@@ -3,14 +3,13 @@ I need these tools in an "airgapped" environment where I either execute the tool
 JVM+Python free except for existing languange bindings .. that is accessible from python , java but not based on...
  
 
-## currently compiled
+## Currently included/built
  trubka Kafka client  
  rpqrs Rust Parquet tools  
 
 ## Plan to add
- Arrow parquet tools
  Datafusion  
- xnvme  
+ xnvme
  
 
 ## NOTE: All above tools are fetched from source at build time and their respective License applies for each of them.
