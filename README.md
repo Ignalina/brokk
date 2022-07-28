@@ -4,10 +4,11 @@ JVM+Python free except for existing languange bindings .. that is accessible fro
  
 
 ## currently compiled
- Arrow parquet tools  
- Rust Parquet tools  
+ trubka Kafka client
+ rpqrs Rust Parquet tools  
 
 ## Plan to add
+ Arrow parquet tools
  Datafusion  
  xnvme  
  
