@@ -4,7 +4,7 @@ JVM+Python free except for existing languange bindings .. that is accessible fro
  
 
 ## Currently included/built
-| Software | Rhel8|Alpine3.16| | Description |
+| Software | Rhel8|Alpine3.16 | Description |
 |:---------|:-|:-|------------:| 
 |trubka    |y|y|Kafka client|  
 |rpqrs     |y|y| Rust Parquet tools|
