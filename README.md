@@ -6,9 +6,9 @@ JVM+Python free except for existing languange bindings .. that is accessible fro
 ## Currently included/built
  trubka Kafka client  
  rpqrs Rust Parquet tools  
+ Datafusion  
 
 ## Plan to add
- Datafusion  
  xnvme
  
 
