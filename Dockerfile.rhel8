@@ -2,8 +2,9 @@ FROM registry.access.redhat.com/ubi8/ubi:latest AS builder
 RUN dnf module -y install rust-toolset:rhel8
 RUN dnf install -y wget tar gzip git
 
-RUN git clone https://github.com/manojkarthick/pqrs.git && cd pqrs && cargo build --release
+RUN git clone -b v0.2.1 --single-branch https://github.com/manojkarthick/pqrs.git  && cd pqrs && cargo build --release
 #RUN ./target/release/pqrs
+RUN git clone -b 10.0.0 --single-branch https://github.com/apache/arrow-datafusion.git && cd arrow-datafusion/datafusion-cli && cargo build --release
 
 
 #FROM registry.access.redhat.com/ubi8/ubi-minimal
