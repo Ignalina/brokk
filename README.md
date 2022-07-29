@@ -4,9 +4,11 @@ JVM+Python free except for existing languange bindings .. that is accessible fro
  
 
 ## Currently included/built
- trubka Kafka client  
- rpqrs Rust Parquet tools  
- Datafusion  
+| Software | Rhel8|Alpine3.16| | Description |
+|:---------|:-|:-|------------:| 
+|trubka    |y|y|Kafka client|  
+|rpqrs     |y|y| Rust Parquet tools|
+|Arrow-Datafusion |n|y| Process | 
 
 ## Plan to add
  xnvme
