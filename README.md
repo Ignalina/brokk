@@ -1,7 +1,7 @@
 # Brokkr's baremetall pre-built-tools 
 A fine Selection of various software that can be executed either within the container or pluck it out to be closer to the "metal". 
 
-## Brokkr software Criterion
+## Brokkr's software Criterion
 * Superior  
 * Near or baremetal language such as Rust/C/C++Golang  
 * No VM or interprenter language (Java/JS/Python) except languange bindings .. that is accessible from python , java but not based on...  
