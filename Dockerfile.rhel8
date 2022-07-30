@@ -3,14 +3,21 @@ RUN dnf module -y install rust-toolset:rhel8
 RUN dnf install -y wget tar gzip git cmake gcc-c++ make
 
 RUN git clone -b v0.2.1 --single-branch https://github.com/manojkarthick/pqrs.git  && cd pqrs && cargo build --release
-RUN cd / && git clone -b 18.0.0 --single-branch https://github.com/apache/arrow-rs.git && cd arrow-rs && cargo build --release
-RUN git clone -b 10.0.0 --single-branch https://github.com/apache/arrow-datafusion.git && cd arrow-datafusion/datafusion-cli && cargo build --release
+RUN cd / && git clone -b 18.0.0 --single-branch https://github.com/apache/arrow-rs.git && cd arrow-rs && cargo install
+#RUN git clone -b 10.0.0 --single-branch https://github.com/apache/arrow-datafusion.git && cd arrow-datafusion/datafusion-cli && cargo build --release
 
 
-#FROM registry.access.redhat.com/ubi8/ubi-minimal
 RUN wget https://go.dev/dl/go1.18.3.linux-amd64.tar.gz
 RUN sha256sum go1.18.3.linux-amd64.tar.gz
 RUN tar -C /usr/local -xzf go*.linux-amd64.tar.gz
 RUN rm -rf go1.18.3.linux-amd64.tar.gz
 
 RUN git clone https://github.com/xitonix/trubka.git && cd trubka && /usr/local/go/bin/go build
+FROM registry.access.redhat.com/ubi8/ubi-minimal
+#FROM registry.access.redhat.com/ubi8/ubi:latest
+
+COPY --from=builder /licenses .
+COPY --from=builder /pqrs/target/release/pqrs .
+#COPY --from=builder /arrow-datafusion/datafusion-cli/target/release/datafusion-cli .
+COPY --from=builder /trubka/trubka .
+
