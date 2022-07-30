@@ -2,9 +2,9 @@
 A fine Selection of various software that can be executed either within the container or pluck it out to be closer to the "metal". 
 
 ## Brokkr software Criterion
-Superior
-Near or baremetal language such as Rust/C/C++Golang
-Not VM or interprenter (Java/JS/Python)   existing languange bindings .. that is accessible from python , java but not based on...
+Superior  
+Near or baremetal language such as Rust/C/C++Golang  
+Not VM or interprenter (Java/JS/Python)   existing languange bindings .. that is accessible from python , java but not based on...  
 
 
 In Norse mythology, Brokkr (Old Norse: [ˈbrokːz̠], "the one who works with metal fragments  ,https://en.wikipedia.org/wiki/Brokkr
