@@ -2,11 +2,11 @@
 A fine Selection of various software that can be executed either within the container or pluck it out to be closer to the "metal". 
 
 ## Currently included/built
-| Software | Rhel8|Alpine3.16 | Description |
-|:---------|:-|:-|------------:| 
-|trubka    |y|y|Kafka client|  
-|rpqrs     |y|y| Rust Parquet tools|
-|Arrow-Datafusion |n|y| Process | 
+| Software | Rhel8|Alpine3.16|Build| Description |
+|:---------|:-|:-|:-|------------:| 
+|trubka    |y|y|norm|Kafka client|  
+|rpqrs     |y|y|norm| Rust Parquet tools|
+|Arrow-Datafusion |n|y|Nightly| Process | 
 
 ## Plan to add
 Tantivy  
