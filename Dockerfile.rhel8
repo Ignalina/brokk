@@ -3,6 +3,7 @@ RUN dnf module -y install rust-toolset:rhel8
 RUN dnf install -y wget tar gzip git cmake gcc-c++ make
 RUN mkdir /brokkr
 RUN git clone -b v0.2.1 --single-branch https://github.com/manojkarthick/pqrs.git  && cd pqrs && cargo build --release && mv target/release/pqrs /brokkr/
+RUN cd / && git clone https://github.com/quickwit-oss/tantivy-cli.git && cd tantivy-cli && cargo build --release && mv target/release/tantivy /brokkr/
 
 FROM registry.access.redhat.com/ubi8/ubi:latest AS builderRustNightly
 RUN dnf install -y wget curl tar gzip git cmake gcc-c++ make git
