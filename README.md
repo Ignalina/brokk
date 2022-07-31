@@ -1,5 +1,5 @@
 # Brokkr's baremetall pre-built-tools 
-A fine Selection of various software that can be executed either within the container or pluck from container directory /brokkr for a closer to the "metal" experience. 
+A fine Selection of various software that can be executed either within the container or pluck from the container directory /brokkr for a closer to the "metal" experience. 
 
 ## Currently included/built
 | Software | Rhel8|Alpine3.16|Build| Description |
