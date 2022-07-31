@@ -2,11 +2,11 @@
 A fine Selection of various software that can be executed either within the container or pluck from the container directory /brokkr for a closer to the "metal" experience. 
 
 ## Currently included/built
-| Software | Rhel8|Alpine3.16|Build| Description |
-|:---------|:-|:-|:-|------------:| 
-|trubka    |y|y|norm|Kafka client|  
-|rpqrs     |y|y|norm|Rust Parquet tools|
-|Arrow-Datafusion |y|y|Nightly|Process | 
+| Software | Rhel8|Alpine3.16|Build| Description |Source|
+|:---------|:-|:-|:-|------------:|:-| 
+|trubka    |y|y|norm|Kafka client|https://github.com/xitonix/trubka|  
+|pqrs     |y|y|norm|Rust Parquet tools|https://github.com/manojkarthick/pqrs|
+|datafusion-cli |y|y|Nightly|Process |https://github.com/apache/arrow-datafusion| 
 
 [Docker hub space](https://hub.docker.com/repository/docker/ignalina/brokkr)
 
