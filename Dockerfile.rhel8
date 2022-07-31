@@ -1,29 +1,21 @@
-FROM registry.access.redhat.com/ubi8/ubi:latest AS builderStable
+FROM registry.access.redhat.com/ubi8/ubi:latest AS builderRustStable
 RUN dnf module -y install rust-toolset:rhel8
 RUN dnf install -y wget tar gzip git cmake gcc-c++ make
-
 RUN git clone -b v0.2.1 --single-branch https://github.com/manojkarthick/pqrs.git  && cd pqrs && cargo build --release
 
-FROM registry.access.redhat.com/ubi8/ubi:latest AS builderNightly
+FROM registry.access.redhat.com/ubi8/ubi:latest AS builderRustNightly
 RUN dnf install -y wget curl tar gzip git cmake gcc-c++ make git
-#RUN mkdir /rust/ && cd /rust && curl https://sh.rustup.rs -sSf | sh -s -- -y && source "$HOME/.cargo/env"
-RUN mkdir /rust/ && cd /rust && curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain nightly && source "$HOME/.cargo/env"
-RUN ls -lR /
-#RUN rustup toolchain install nightly && rustup default nightly
-#RUN cd / && git clone -b 18.0.0 --single-branch https://github.com/apache/arrow-rs.git && cd arrow-rs && cargo build -Z namespaced-features
-#RUN git clone -b 10.0.0 --single-branch https://github.com/apache/arrow-datafusion.git && cd arrow-datafusion/datafusion-cli && cargo build --release
+RUN mkdir /rust/ && cd /rust && curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain nightly && source $HOME/.cargo/env && ls $HOME/.cargo
+RUN cd / && git clone -b 18.0.0 --single-branch https://github.com/apache/arrow-rs.git && cd arrow-rs && $HOME/.cargo/bin/cargo build -Z namespaced-features
+RUN cd / && git clone -b 10.0.0 --single-branch https://github.com/apache/arrow-datafusion.git && cd arrow-datafusion/datafusion-cli && $HOME/.cargo/bin/cargo build --release
 
+FROM registry.access.redhat.com/ubi8/go-toolset:1.17.10-4 AS builderGoStable
+RUN git clone https://github.com/xitonix/trubka.git && cd trubka && go build && pwd
 
-RUN wget https://go.dev/dl/go1.18.3.linux-amd64.tar.gz
-RUN sha256sum go1.18.3.linux-amd64.tar.gz
-RUN tar -C /usr/local -xzf go*.linux-amd64.tar.gz
-RUN rm -rf go1.18.3.linux-amd64.tar.gz
-
-RUN git clone https://github.com/xitonix/trubka.git && cd trubka && /usr/local/go/bin/go build
 FROM registry.access.redhat.com/ubi8/ubi-minimal
 
 COPY /licenses .
-COPY --from=builderStable /pqrs/target/release/pqrs .
-#COPY --from=builderNightly /arrow-datafusion/datafusion-cli/target/release/datafusion-cli .
-COPY --from=builderNightly /trubka/trubka .
+COPY --from=builderRustStable /pqrs/target/release/pqrs .
+COPY --from=builderRustNightly /arrow-datafusion/datafusion-cli/target/release/datafusion-cli .
+COPY --from=builderGoStable /opt/app-root/src/trubka/trubka .
 
