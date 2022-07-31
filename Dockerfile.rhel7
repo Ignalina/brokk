@@ -1,13 +1,24 @@
-FROM registry.access.redhat.com/ubi7/ubi-minimal as golang
-RUN microdnf install wget tar gzip unzip
-RUN wget https://github.com/manojkarthick/pqrs/releases/download/v0.2.1/pqrs-0.2.1-x86_64-unknown-linux-gnu.zip
-RUN unzip pqrs-0.2.1-x86_64-unknown-linux-gnu.zip 
-#RUN mv pqrs-0.2.1-x86_64-unknown-linux-gnu.zip/bin/pqrs /bin/
+FROM registry.access.redhat.com/ubi7/ubi:latest AS builderRustNightly
+RUN yum install -y wget curl tar gzip git cmake gcc-c++ make git m4 xz bzip2
+RUN cd && wget https://cmake.org/files/v3.12/cmake-3.12.3.tar.gz && tar zxvf cmake-3.* && cd cmake-3.* && ./bootstrap --prefix=/usr/local && make -j$(nproc) && make install
+RUN cd && wget https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz && xz -d gmp-6.2.1.tar.xz && tar -xf gmp-6.2.1.tar && cd gmp-6.2.1 && ./configure && make -j$(nproc) && make check && make install
+RUN cd && wget https://www.mpfr.org/mpfr-current/mpfr-4.1.0.tar.xz && xz -d mpfr-4.1.0.tar.xz && tar -xf mpfr-4.1.0.tar && cd mpfr-4.1.0 && ./configure && make -j$(nproc) && make install
+RUN cd && wget https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz && tar -zxf mpc-1.2.1.tar.gz && cd mpc-1.2.1 && ./configure && make -j$(nproc) && make install
+RUN cd && curl ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-4.9.2/gcc-4.9.2.tar.bz2 -O && tar xvfj gcc-4.9.2.tar.bz2 && cd gcc-4.9.2 && ./configure --disable-multilib --enable-languages=c,c++ && make -j8 && make install
 
-RUN wget https://go.dev/dl/go1.18.2.linux-amd64.tar.gz
-RUN sha256sum go1.18.2.linux-amd64.tar.gz
-RUN tar -C /usr/local -xzf go*.linux-amd64.tar.gz
-RUN rm -rf go1.18.2.linux-amd64.tar.gz
-#ADD arrowbuilder .
-#WORKDIR /arrowbuilder
-#RUN /usr/local/go/bin/go mod tidy
+
+RUN mkdir /rust/ && cd /rust && curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain nightly && source $HOME/.cargo/env && ls $HOME/.cargo
+RUN cd / && git clone -b v0.2.1 --single-branch https://github.com/manojkarthick/pqrs.git  && cd pqrs && $HOME/.cargo/bin/cargo build --release
+RUN cd / && git clone -b 18.0.0 --single-branch https://github.com/apache/arrow-rs.git && cd arrow-rs && $HOME/.cargo/bin/cargo build -Z namespaced-features
+RUN cd / && git clone -b 10.0.0 --single-branch https://github.com/apache/arrow-datafusion.git && cd arrow-datafusion/datafusion-cli && $HOME/.cargo/bin/cargo build --release
+
+FROM registry.access.redhat.com/ubi7/go-toolset:1.17.10-4 AS builderGoStable
+RUN git clone https://github.com/xitonix/trubka.git && cd trubka && go build && pwd
+
+FROM registry.access.redhat.com/ubi7/ubi-minimal
+
+COPY /licenses .
+COPY --from=builderRustNightly /pqrs/target/release/pqrs .
+COPY --from=builderRustNightly /arrow-datafusion/datafusion-cli/target/release/datafusion-cli .
+COPY --from=builderGoStable /opt/app-root/src/trubka/trubka .
+
