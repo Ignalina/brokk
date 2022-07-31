@@ -6,7 +6,7 @@ A fine Selection of various software that can be executed either within the cont
 |:---------|:-|:-|:-|------------:| 
 |trubka    |y|y|norm|Kafka client|  
 |rpqrs     |y|y|norm|Rust Parquet tools|
-|Arrow-Datafusion |n|y|Nightly|Process | 
+|Arrow-Datafusion |y|y|Nightly|Process | 
 
 [Docker hub space](https://hub.docker.com/repository/docker/ignalina/brokkr)
 
