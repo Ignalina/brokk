@@ -5,8 +5,10 @@ A fine Selection of various software that can be executed either within the cont
 | Software | Rhel8|Alpine3.16|Build| Description |
 |:---------|:-|:-|:-|------------:| 
 |trubka    |y|y|norm|Kafka client|  
-|rpqrs     |y|y|norm| Rust Parquet tools|
-|Arrow-Datafusion |n|y|Nightly| Process | 
+|rpqrs     |y|y|norm|Rust Parquet tools|
+|Arrow-Datafusion |n|y|Nightly|Process | 
+
+[Docker hub space](https://hub.docker.com/repository/docker/ignalina/brokkr)
 
 ## Plan to add
 Tantivy  
