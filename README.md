@@ -7,11 +7,11 @@ A fine Selection of various software that can be executed either within the cont
 |trubka    |y|y|norm|Kafka client|https://github.com/xitonix/trubka|  
 |pqrs     |y|y|norm|Rust Parquet tools|https://github.com/manojkarthick/pqrs|
 |datafusion-cli |y|y|Nightly|Process |https://github.com/apache/arrow-datafusion| 
+|tantivy-cli |y|y|norm|Text indexing |https://github.com/quickwit-oss/tantivy-cli| 
 
 [Docker hub space](https://hub.docker.com/repository/docker/ignalina/brokkr)
 
 ## Plan to add
-Tantivy  
 xnvme  
  
 
