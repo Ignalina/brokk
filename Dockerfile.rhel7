@@ -12,6 +12,11 @@ RUN cd / && git clone -b v0.2.1 --single-branch https://github.com/manojkarthick
 FROM registry.access.redhat.com/ubi7/go-toolset:1.17.10-4 AS builderGoStable
 RUN git clone https://github.com/xitonix/trubka.git && cd trubka && go build && pwd
 
+FROM registry.access.redhat.com/ubi7/ubi-minimal builderGoStable
+RUN microdnf install wget tar gzip
+RUN wget https://go.dev/dl/go1.19.linux-amd64.tar.gz && sha256sum go1.19.linux-amd64.tar.gz && tar -C /usr/local -xzf go*.linux-amd64.tar.gz && rm -rf go1.19.linux-amd64.tar.gz
+RUN git clone https://github.com/xitonix/trubka.git && cd trubka && /usr/local/go/bin/go build && pwd
+
 FROM registry.access.redhat.com/ubi7/ubi-minimal
 
 COPY /licenses .
