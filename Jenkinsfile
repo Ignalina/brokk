@@ -1,9 +1,9 @@
 pipeline {
   agent any
   stages {
-    stage('') {
+    stage('error') {
       steps {
-        sh 'podman build -f Dockerfile.rhel8 .'
+        sh 'podman build -f Dockerfile.rhel7 .'
       }
     }
 
