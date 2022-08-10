@@ -2,6 +2,7 @@ FROM registry.access.redhat.com/ubi7/ubi:latest AS builderRustNightly
 RUN yum install -y wget curl tar gzip git cmake gcc-c++ make git m4 xz bzip2
 RUN cd && wget https://cmake.org/files/v3.12/cmake-3.12.3.tar.gz && tar zxvf cmake-3.* && cd cmake-3.* && ./bootstrap --prefix=/usr/local && make -j$(nproc) && make install
 RUN cd && curl ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-4.9.4/gcc-4.9.4.tar.bz2 -O && tar xvfj gcc-4.9.4.tar.bz2 && cd gcc-4.9.4 &&  ./contrib/download_prerequisites && cd .. && mkdir objdir && cd objdir && $PWD/../gcc-4.9.4/configure --prefix=/opt/gcc-4.9.4 --disable-multilib --enable-languages=c,c++ && make -j8 && make install
+RUN yum remove cmake gcc-c++
 RUN echo "/opt/gcc-4.9.4/lib64" >> /etc/ld.so.conf
 
 RUN mkdir /rust/ && cd /rust && curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain nightly && source $HOME/.cargo/env && ls $HOME/.cargo
