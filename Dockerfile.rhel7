@@ -1,28 +1,30 @@
 FROM registry.access.redhat.com/ubi7/ubi:latest AS builderRustNightly
+ARG GCC_VER=10.4.0
+RUN echo $GCC_VER
 RUN yum install -y wget curl tar gzip git cmake gcc-c++ make git m4 xz bzip2
 RUN cd && wget https://cmake.org/files/v3.12/cmake-3.12.3.tar.gz && tar zxvf cmake-3.* && cd cmake-3.* && ./bootstrap --prefix=/usr/local && make -j$(nproc) && make install
-RUN cd && curl ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-4.9.4/gcc-4.9.4.tar.bz2 -O && tar xvfj gcc-4.9.4.tar.bz2 && cd gcc-4.9.4 &&  ./contrib/download_prerequisites && cd .. && mkdir objdir && cd objdir && $PWD/../gcc-4.9.4/configure --prefix=/opt/gcc-4.9.4 --disable-multilib --enable-languages=c,c++ && make -j8 && make install
-RUN yum remove -y cmake gcc-c++
-RUN echo "/opt/gcc-4.9.4/lib64" >> /etc/ld.so.conf
-
+RUN cd && curl ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-${GCC_VER}/gcc-${GCC_VER}.tar.gz -O && tar -zxf gcc-${GCC_VER}.tar.gz && cd gcc-${GCC_VER} &&  ./contrib/download_prerequisites && cd .. && mkdir objdir && cd objdir && $PWD/../gcc-${GCC_VER}/configure  --disable-multilib --enable-languages=c,c++ --host=x86_64-pc-linux-gnu && make -j8 && yum remove -y cmake gcc-c++ && make install
+#RUN cd && curl ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-${GCC_VER}/gcc-${GCC_VER}.tar.gz -O && tar -zxf gcc-${GCC_VER}.tar.gz && cd gcc-${GCC_VER} &&  ./contrib/download_prerequisites && cd .. && mkdir objdir && cd objdir && $PWD/../gcc-${GCC_VER}/configure --prefix=/opt/gcc-${GCC_VER} --disable-multilib --enable-languages=c,c++ --host=x86_64-pc-linux-gnu && make -j8 && make install
+#RUN yum remove -y cmake gcc-c++
+#RUN echo "/opt/gcc-4.9.4/lib64" >> /etc/ld.so.conf
+#ÂRUN source /opt/gcc-${GCC_VER}/activate
+#RUN export LD_LIBRARY_PATH=/opt/gcc-${GCC_VER}/lib64 && export CXX=/opt/gcc-${GCC_VER}/bin/c++ && export CMAKE_CXX_COMPILER=/opt/gcc-${GCC_VER}/bin/c++
+#RUN g++ -version
 RUN mkdir /rust/ && cd /rust && curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain nightly && source $HOME/.cargo/env && ls $HOME/.cargo
 RUN cd / && git clone -b v0.2.1 --single-branch https://github.com/manojkarthick/pqrs.git  && cd pqrs && $HOME/.cargo/bin/cargo build --release
-#RUN cd / && git clone -b 18.0.0 --single-branch https://github.com/apache/arrow-rs.git && cd arrow-rs && $HOME/.cargo/bin/cargo build -Z namespaced-features
-#RUN cd / && git clone -b 10.0.0 --single-branch https://github.com/apache/arrow-datafusion.git && cd arrow-datafusion/datafusion-cli && $HOME/.cargo/bin/cargo build --release
+RUN cd / && git clone -b 18.0.0 --single-branch https://github.com/apache/arrow-rs.git && cd arrow-rs && $HOME/.cargo/bin/cargo build -Z namespaced-features
+RUN cd / && git clone -b 10.0.0 --single-branch https://github.com/apache/arrow-datafusion.git && cd arrow-datafusion/datafusion-cli && $HOME/.cargo/bin/cargo build --release
 
 FROM registry.access.redhat.com/ubi7/go-toolset:1.17.10-4 AS builderGoStable
 RUN git clone https://github.com/xitonix/trubka.git && cd trubka && go build && pwd
 
-FROM registry.access.redhat.com/ubi7/ubi-minimal builderGoStable
-RUN microdnf install wget tar gzip
-RUN wget https://go.dev/dl/go1.19.linux-amd64.tar.gz && sha256sum go1.19.linux-amd64.tar.gz && tar -C /usr/local -xzf go*.linux-amd64.tar.gz && rm -rf go1.19.linux-amd64.tar.gz
-RUN git clone https://github.com/xitonix/trubka.git && cd trubka && /usr/local/go/bin/go build && pwd
+RUN cd / && git clone https://github.com/xitonix/trubka.git && cd trubka && /usr/local/go/bin/go build && pwd
 
 FROM registry.access.redhat.com/ubi7/ubi-minimal
 
 COPY /licenses .
 COPY --from=builderRustNightly /pqrs/target/release/pqrs .
-#COPY --from=builderRustNightly /arrow-datafusion/datafusion-cli/target/release/datafusion-cli .
+COPY --from=builderRustNightly /arrow-datafusion/datafusion-cli/target/release/datafusion-cli .
 COPY --from=builderGoStable /opt/app-root/src/trubka/trubka .
 
   
