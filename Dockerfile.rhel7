@@ -13,9 +13,9 @@ RUN echo "/usr/local/lib64" > /etc/ld.so.conf.d/.conf && ldconfig
 #RUN g++ -version
 RUN mkdir /rust/ && cd /rust && curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain nightly && source $HOME/.cargo/env && ls $HOME/.cargo
 RUN $HOME/.cargo/bin/rustup component add rust-src --toolchain nightly
-RUN cd / && git clone -b v0.2.1 --single-branch https://github.com/manojkarthick/pqrs.git  && cd pqrs && $HOME/.cargo/bin/cargo build --bins  --release && ldd /pqrs/target/release/pqrs
+RUN cd / && git clone -b v0.2.1 --single-branch https://github.com/manojkarthick/pqrs.git  && cd pqrs && $HOME/.cargo/bin/cargo build --bins --release && ldd /pqrs/target/release/pqrs
 RUN gcc --version
-RUN cd / && git clone -b 18.0.0 --single-branch https://github.com/apache/arrow-rs.git && cd arrow-rs && $HOME/.cargo/bin/cargo build --bins -Z build-std -Z namespaced-features --target x86_64-unknown-linux-gnu
+RUN cd / && git clone -b 18.0.0 --single-branch https://github.com/apache/arrow-rs.git && cd arrow-rs && $HOME/.cargo/bin/cargo build --bins --release -Z build-std -Z namespaced-features --target x86_64-unknown-linux-gnu
 RUN cd / && git clone -b 10.0.0 --single-branch https://github.com/apache/arrow-datafusion.git && cd arrow-datafusion/datafusion-cli && $HOME/.cargo/bin/cargo build --release
 
 FROM registry.access.redhat.com/ubi7/go-toolset:1.17.10-4 AS builderGoStable
