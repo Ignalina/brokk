@@ -19,7 +19,7 @@ xnvme
 All above tools are fetched from source at build time and their respective License applies for each of them.
 Look up their respective license from their git/source or in this git repo under /licences
 
-## Brokkr's software Criterion
+## Brokkr's software Criteria
 * Near or baremetal such as Rust/C/C++/Golang  
 * Not based on VM or interprenter  (Java/JS/Python) except languange bindings from those  
 * Superb functionality  
