@@ -7,7 +7,7 @@ I found myself recompiling some of these tools over and over for sometimes old/a
 
 
 # DISCLAIMER
-DO NOT USE MY BUILDS FOR YOUR PRODUCTION· Altough the respective software project is the finest  of sorts , it doesnt mean my builds/build scripts make them justice. You must also check that respective License. For Redhat/Rhel builds im using UBI which is/was most permissive.
+DO NOT USE MY BUILDS FOR YOUR PRODUCTION· Altough the respective software project is the finest  of sorts , it doesnt mean my builds/build scripts make them justice. You must also check that respective License.
 
 ## Currently included/built 
 | Software | Rhel7 | Rhel8|Alpine3.16|Build| Description |Source|
@@ -25,7 +25,7 @@ xnvme
 
 ## Licenses:
 All above tools are fetched from source at build time and their respective License applies for each of them.
-Look up their respective license from their git/source or in this git repo under /licences
+Look up their respective license from their git/source or in this git repo under /licences. For non free Redhat/Rhel builds im using UBI which is/was most permissive.
 
 ## Brokkr's software Criteria
 * Baremetal or nearmetal such as Rust/C/C++/Golang  , Not based on VM or interprenter  
