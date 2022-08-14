@@ -7,12 +7,12 @@ I found myself recompiling some of these tools over and over for sometimes old/a
 
 
 # DISCLAIMER
-DO NOT USE MY BUILDS FOR YOUR PRODUCTION· Altough the respective software project is the finest  of sorts , it doesnt mean my builds/build scripts make them justice. 
+DO NOT USE MY BUILDS FOR YOUR PRODUCTION· Altough the respective software project is the finest  of sorts , it doesnt mean my builds/build scripts make them justice. You must also check that respective License. For Redhat/Rhel builds im using UBI which is/was most permissive.
 
 ## Currently included/built 
 | Software | Rhel7 | Rhel8|Alpine3.16|Build| Description |Source|
 |:---------|:-|:-|:-|:-|------------:|:-| 
-|trubka    |n|y|norm|Kafka client|https://github.com/xitonix/trubka|  
+|trubka    |n|y|y|norm|Kafka client|https://github.com/xitonix/trubka|  
 |pqrs     |n|y|y|norm|Rust Parquet tools|https://github.com/manojkarthick/pqrs|
 |datafusion-cli |n|y|y|Nightly|Process |https://github.com/apache/arrow-datafusion| 
 |tantivy-cli |n|y|y|norm|Text indexing |https://github.com/quickwit-oss/tantivy-cli| 
