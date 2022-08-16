@@ -10,14 +10,16 @@ I found myself recompiling some of these tools over and over for sometimes old/a
 DO NOT USE MY BUILDS FOR YOUR PRODUCTION· Altough the respective software project is the finest  of sorts , it doesnt mean my builds/build scripts make them justice. You must also check that respective License.
 
 ## Currently included/built 
+[Docker hub space](https://hub.docker.com/repository/docker/ignalina/brokkr)
+
 | Software | Rhel7 | Rhel8|Alpine3.16|Build| Description |Source|
 |:---------|:-|:-|:-|:-|------------:|:-| 
-|trubka    |n|y|y|norm|Kafka client|https://github.com/xitonix/trubka|  
-|pqrs     |n|y|y|norm|Rust Parquet tools|https://github.com/manojkarthick/pqrs|
+|trubka    |y|y|y|norm|Kafka client|https://github.com/xitonix/trubka| 
+|pqrs     |y|y|y|norm|Rust Parquet tools|https://github.com/manojkarthick/pqrs| 
 |datafusion-cli |n|y|y|Nightly|Process |https://github.com/apache/arrow-datafusion| 
-|tantivy-cli |n|y|y|norm|Text indexing |https://github.com/quickwit-oss/tantivy-cli| 
+|tantivy-cli |y|y|y|norm|Text indexing |https://github.com/quickwit-oss/tantivy-cli| 
+|kafka-delta-ingest |y|y|n|norm|Text indexing |https://github.com/delta-io/kafka-delta-ingest| 
 
-[Docker hub space](https://hub.docker.com/repository/docker/ignalina/brokkr)
 
 ## Plan to add
 xnvme  
