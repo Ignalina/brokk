@@ -4,12 +4,15 @@ RUN mkdir /brokkr
 RUN cd / && git clone https://github.com/manojkarthick/pqrs.git && cd pqrs && cargo build --release && mv target/release/pqrs /brokkr/
 RUN cd / && git clone https://github.com/quickwit-oss/tantivy-cli.git && cd tantivy-cli && cargo build --release && mv target/release/tantivy /brokkr/
 
+
 FROM rust:1.62.1-alpine3.16 as builderRustNightly
 RUN apk add git musl-dev  cmake make build-base
 RUN rustup toolchain install nightly && rustup default nightly
 RUN mkdir /brokkr
 RUN cd / && git clone -b 18.0.0 --single-branch https://github.com/apache/arrow-rs.git && cd arrow-rs && cargo build -Z namespaced-features --release
 RUN cd / && git clone -b 10.0.0 --single-branch https://github.com/apache/arrow-datafusion.git && cd arrow-datafusion/datafusion-cli && cargo build --release && mv target/release/datafusion-cli /brokkr/
+#RUN cd / && git clone https://github.com/delta-io/kafka-delta-ingest && cd kafka-delta-ingest && cargo build -j$(nproc) --release && mv target/release/kafka-delta-ingest /brokkr/
+
 
 FROM golang:alpine3.16 as builderGoStable
 RUN apk add git musl-dev go
@@ -18,7 +21,7 @@ RUN cd / && git clone https://github.com/xitonix/trubka.git && cd trubka && go b
 
 FROM alpine:3.16
 RUN mkdir /brokkr
-COPY  /licenses .
+COPY  /licenses /licenses
 COPY --from=builderRustStable /brokkr/* /brokkr/
 COPY --from=builderRustNightly /brokkr/* /brokkr/
 COPY --from=builderGoStable /brokkr/* /brokkr/

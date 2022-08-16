@@ -2,24 +2,25 @@ FROM registry.access.redhat.com/ubi8/ubi:latest AS builderRustStable
 RUN dnf module -y install rust-toolset:rhel8
 RUN dnf install -y wget tar gzip git cmake gcc-c++ make
 RUN mkdir /brokkr
-RUN git clone -b v0.2.1 --single-branch https://github.com/manojkarthick/pqrs.git  && cd pqrs && cargo build --release && mv target/release/pqrs /brokkr/
-RUN cd / && git clone https://github.com/quickwit-oss/tantivy-cli.git && cd tantivy-cli && cargo build --release && mv target/release/tantivy /brokkr/
+RUN git clone -b v0.2.1 --single-branch https://github.com/manojkarthick/pqrs.git  && cd pqrs && cargo build -j$(nproc) --release && mv target/release/pqrs /brokkr/
+RUN cd / && git clone https://github.com/quickwit-oss/tantivy-cli.git && cd tantivy-cli && cargo build -j$(nproc) --release && mv target/release/tantivy /brokkr/
+RUN cd / && git clone https://github.com/delta-io/kafka-delta-ingest && cd kafka-delta-ingest && cargo build -j$(nproc) --release && mv target/release/kafka-delta-ingest /brokkr/
 
 FROM registry.access.redhat.com/ubi8/ubi:latest AS builderRustNightly
 RUN dnf install -y wget curl tar gzip git cmake gcc-c++ make git
 RUN mkdir /toolchain/ && cd /toolchain && curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain nightly && source $HOME/.cargo/env && ls $HOME/.cargo
 RUN mkdir /brokkr
-RUN cd / && git clone -b 18.0.0 --single-branch https://github.com/apache/arrow-rs.git && cd arrow-rs && $HOME/.cargo/bin/cargo build -Z namespaced-features --release
-RUN cd / && git clone -b 10.0.0 --single-branch https://github.com/apache/arrow-datafusion.git && cd arrow-datafusion/datafusion-cli && $HOME/.cargo/bin/cargo build --release && mv target/release/datafusion-cli /brokkr/
+RUN cd / && git clone -b 18.0.0 --single-branch https://github.com/apache/arrow-rs.git && cd arrow-rs && $HOME/.cargo/bin/cargo build -j$(nproc) -Z namespaced-features --release
+RUN cd / && git clone -b 10.0.0 --single-branch https://github.com/apache/arrow-datafusion.git && cd arrow-datafusion/datafusion-cli && $HOME/.cargo/bin/cargo build -j$(nproc) --release && mv target/release/datafusion-cli /brokkr/
 
-FROM registry.access.redhat.com/ubi8/go-toolset:1.17.10-4 AS builderGoStable
+FROM registry.access.redhat.com/ubi8/go-toolset:1.17.12-3 AS builderGoStable
 USER root
 RUN mkdir /brokkr
 RUN git clone https://github.com/xitonix/trubka.git && cd trubka && go build && mv /opt/app-root/src/trubka/trubka /brokkr/
 
 FROM registry.access.redhat.com/ubi8/ubi-minimal
 RUN mkdir /brokkr
-COPY /licenses .
+COPY /licenses /licenses
 COPY --from=builderRustStable /brokkr/* /brokkr/
 COPY --from=builderRustNightly /brokkr/* /brokkr/
 COPY --from=builderGoStable /brokkr/* /brokkr/
