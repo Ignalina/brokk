@@ -4,7 +4,7 @@ RUN yum install -y wget curl tar gzip git cmake gcc-c++ make git m4 xz bzip2
 RUN mkdir /rust/ && cd /rust && curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain nightly && source $HOME/.cargo/env && ls $HOME/.cargo
 RUN $HOME/.cargo/bin/rustup component add rust-src 
 RUN source "$HOME/.cargo/env"
-RUN cd / && git clone -b v0.2.1 --single-branch https://github.com/manojkarthick/pqrs.git  && cd pqrs && $HOME/.cargo/bin/cargo build -j$(nproc) --bins --release && mv /pqrs/target/release/pqrs /brokkr/
+RUN cd / && git clone -b v0.2.2 --single-branch https://github.com/manojkarthick/pqrs.git  && cd pqrs && $HOME/.cargo/bin/cargo build -j$(nproc) --bins --release && mv /pqrs/target/release/pqrs /brokkr/
 
 #RUN yum install -y rust-toolset-1.20
 
