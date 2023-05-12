@@ -1,0 +1,22 @@
+FROM rockylinux/rockylinux:9.1
+ENV container docker
+RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == \
+systemd-tmpfiles-setup.service ] || rm -f $i; done); \
+rm -f /lib/systemd/system/multi-user.target.wants/*;\
+rm -f /etc/systemd/system/*.wants/*;\
+rm -f /lib/systemd/system/local-fs.target.wants/*; \
+rm -f /lib/systemd/system/sockets.target.wants/*udev*; \
+rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
+rm -f /lib/systemd/system/basic.target.wants/*;\
+rm -f /lib/systemd/system/anaconda.target.wants/*;
+VOLUME [ "/sys/fs/cgroup" ]
+CMD ["/usr/sbin/init"]
+#
+RUN yum install -y nano git git-lfs
+RUN git clone https://github.com/Ignalina/racksetup.git
+RUN cd racksetup/dist/rocky_9_1 ; \
+export config=$(realpath default_config); \
+./install_app.sh init ${config} 
+./install_app.sh nginx ${config} 
+./install_app.sh spark ${config} 
+./install_app.sh nessie_iceberg ${config} 
