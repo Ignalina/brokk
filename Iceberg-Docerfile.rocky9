@@ -16,8 +16,8 @@ RUN yum install -y nano git git-lfs
 RUN git clone https://github.com/Ignalina/racksetup.git
 RUN cd racksetup/dist/rocky_9_1 ; \
 export config=$(realpath default_config); \
-./install_app.sh init ${config} 
-./install_app.sh nginx ${config} 
-./install_app.sh spark ${config} 
-./install_app.sh nessie_iceberg ${config} 
-./install_app.sh singleminio ${config} 
+./install_app.sh init ${config}; \
+./install_app.sh nginx ${config}; \ 
+./install_app.sh spark ${config}; \
+./install_app.sh nessie_iceberg ${config}; \
+./install_app.sh singleminio ${config};
