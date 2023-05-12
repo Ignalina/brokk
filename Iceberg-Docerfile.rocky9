@@ -20,3 +20,4 @@ export config=$(realpath default_config); \
 ./install_app.sh nginx ${config} 
 ./install_app.sh spark ${config} 
 ./install_app.sh nessie_iceberg ${config} 
+./install_app.sh singleminio ${config} 
