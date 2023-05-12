@@ -12,7 +12,7 @@ rm -f /lib/systemd/system/anaconda.target.wants/*;
 VOLUME [ "/sys/fs/cgroup" ]
 CMD ["/usr/sbin/init"]
 #
-RUN yum install -y nano git git-lfs
+RUN yum install -y nano git git-lfs bash
 RUN git clone https://github.com/Ignalina/racksetup.git
 RUN cd racksetup/dist/rocky_9_1 ; \
 export config=$(realpath default_config); \
