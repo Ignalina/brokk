@@ -30,7 +30,7 @@ All above tools are fetched from source at build time and their respective Licen
 Look up their respective license from their git/source or in this git repo under /licences. For non free Redhat/Rhel builds im using UBI which is/was most permissive.
 
 ## Brokkr's software Criteria
-* Baremetal or nearmetal such as Rust/C/C++/Golang  , Not based on VM or interprenter  
+* Baremetall not based on VM or interprenter such as Rust/C++/C/zig or nearmetal Golang/Haskell    
 * Single or minimal dependencies , the less the merrier 
 * Superb functionality
 
